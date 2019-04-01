@@ -21,8 +21,10 @@ else:
 		def __init__(self):
 			self.faceCascade = cv2.CascadeClassifier(cascPath)
 			self.cap = cv2.VideoCapture(0, cv2.CAP_V4L)
+			print('initialized capture')
 
 		def find_face(self):
+			print('reading image')
 			re, image = self.cap.read()
 			gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 			faces = self.faceCascade.detectMultiScale(
