@@ -20,6 +20,7 @@ else:
 	class FaceDetector():
 		def __init__(self):
 			self.faceCascade = cv2.CascadeClassifier(cascPath)
+			print('loaded face cascade')
 			self.cap = cv2.VideoCapture(0, cv2.CAP_V4L)
 			if self.cap.isOpened():
 				print('initialized capture')
