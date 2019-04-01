@@ -122,10 +122,16 @@ module gimbalPost() {
 module bearingMount() {
     difference() {
         union() {
-            cube([60, 12, bearingW+7], 
+            difference() {
+                cube([59.5, 11.5, bearingW+7], 
                 center=true);
-            cylinder(r=bearingOR+w, h=bearingW+7, 
+                translate([-30, 0, 0]) {
+                    cube([30, 12, bearingW+7], center=true);
+                }
+            }
+            cylinder(r=bearingOR+w-0.5, h=bearingW+7, 
                 center=true, $fn=fn);
+            
         }
         cylinder(r=bearingOR, h=bearingW+7+1,
             center=true, $fn=fn);
