@@ -26,8 +26,7 @@ class Gimbal():
 		if new_y in self.y_range:
 			self.y_loc = new_y
 
-		print('new_x', new_x)
-		print('new_y', new_y)
+		print('moving to values', new_x, new_y)
 		self.x_axis.angle = self.x_loc
 		self.y_axis.angle = self.y_loc
 

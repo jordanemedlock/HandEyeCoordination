@@ -20,11 +20,11 @@ else:
 	class FaceDetector():
 		def __init__(self):
 			self.faceCascade = cv2.CascadeClassifier(cascPath)
-			
+			self.cap = cv2.VideoCapture(0, cv2.CAP_V4L)
 
 		def find_face(self):
-			cap = cv2.VideoCapture(0)
-			gray = cv2.cvtColor(cap, cv2.COLOR_BGR2GRAY)
+			re, image = self.cap.read()
+			gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 			faces = self.faceCascade.detectMultiScale(
 				gray,
 				scaleFactor=1.1,
@@ -33,7 +33,7 @@ else:
 				flags=cv2.cv.CV_HAAR_SCALE_IMAGE
 			)
 
-			print "Found {0} faces!".format(len(faces))
+			print("Found {0} faces!".format(len(faces)))
 
 			if faces:
 				(x, y, w, h) = faces[0]
