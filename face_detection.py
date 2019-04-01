@@ -21,7 +21,10 @@ else:
 		def __init__(self):
 			self.faceCascade = cv2.CascadeClassifier(cascPath)
 			self.cap = cv2.VideoCapture(0, cv2.CAP_V4L)
-			print('initialized capture')
+			if self.cap.isOpened():
+				print('initialized capture')
+			else:
+				print('failed to initialize')
 
 		def find_face(self):
 			print('reading image')
