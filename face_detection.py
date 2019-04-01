@@ -29,6 +29,8 @@ else:
 		def find_face(self):
 			print('reading image')
 			re, image = self.cap.read()
+			if not re:
+				return random(), random()
 			gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 			faces = self.faceCascade.detectMultiScale(
 				gray,
