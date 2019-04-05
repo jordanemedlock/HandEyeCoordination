@@ -17,7 +17,7 @@ class Gimbal():
         self.y_range = Range(0.0, 120.0)
 
 
-    def move(self, direction, speed=5):
+    def move(self, direction, speed=10):
         (dx, dy) = direction
         new_x = self.x_loc + dx * speed
         new_y = self.y_loc + dy * speed
@@ -26,7 +26,6 @@ class Gimbal():
         if new_y in self.y_range:
             self.y_loc = new_y
 
-        print('moving to values', new_x, new_y)
         self.x_axis.angle = self.x_loc
         self.y_axis.angle = self.y_loc
 
