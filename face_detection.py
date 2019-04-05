@@ -20,18 +20,14 @@ else:
     class FaceDetector():
         def __init__(self):
             self.faceCascade = cv2.CascadeClassifier(cascPath)
-            print('loaded face cascade')
             self.cap = cv2.VideoCapture(0)
-            if self.cap.isOpened():
-                print('initialized capture')
-            else:
-                print('failed to initialize')
+            self.cap.set(cv2.CAP_PROP_BUFFERSIZE, 1)
+            self.last = 0.5, 0.5
 
         def find_face(self):
-            print('reading image')
             re, image = self.cap.read()
             if not re:
-                return random(), random()
+                return (random(), random())
             gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
             faces = self.faceCascade.detectMultiScale(
                 gray,
@@ -40,13 +36,17 @@ else:
                 minSize=(30,30)
             )
 
-            print("Found {0} faces!".format(len(faces)))
-
             for (x, y, w, h) in faces:
-                x = x + w/2
-                y = y + h/2
-                height, width, channels = gray.shape
-                return x / width, (1 - y / height)
+                height, width = gray.shape
+                cv2.rectangle(image,rec=(x,y,w,h),color=(255,0,0),thickness=2)
+                # cv2.imshow('face', image)
+                # cv2.waitKey(10)
+                x = x + int(w/2)
+                y = y + int(h/2)
+                x, y = x / width, (1 - y / height)
+                print('found face at', x, y)
+                self.last = (x,y)
+                return x, y
             return (random(), random())
 
 
