@@ -42,13 +42,11 @@ else:
 
 			print("Found {0} faces!".format(len(faces)))
 
-			if faces:
-				(x, y, w, h) = faces[0]
+			for (x, y, w, h) in faces:
 				x = x + w/2
 				y = y + h/2
 				height, width, channels = gray.shape
 				return x / width, (1 - y / height)
-			else:
-				return (random(), random())
+			return (random(), random())
 
 
