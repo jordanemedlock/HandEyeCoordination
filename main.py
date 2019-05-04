@@ -1,5 +1,5 @@
-from face_detection import FaceDetector
-from gimbal import Gimbal
+from ivan.face_detection import FaceDetector
+from ivan.gimbal import Gimbal
 import time
 
 fd = FaceDetector()
