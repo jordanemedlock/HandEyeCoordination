@@ -34,9 +34,26 @@ module hand() {
         // cord hole
         rotate(a=[0,45,0])
             translate([-70,15,100]) 
-                cylinder(h=400,r=7,center=true);
+                cylinder(h=400,r=8,center=true);
         translate([22,8,123]) sphere(40.2);
 
+    }
+}
+
+module fingers() {
+    boxHeight = 80;
+    difference() {
+        hand();
+        translate([0,0,boxHeight/2]) cube([100,130,boxHeight], center=true);
+    }
+}
+
+
+module palm() {
+    boxHeight = 80;
+    intersection() {
+        hand();
+        translate([0,0,boxHeight/2]) cube([100,130,boxHeight], center=true);
     }
 }
 
@@ -53,6 +70,8 @@ module servoNeg() {
         translate([0,0,-bearingW]) cylinder(h=bearingW+0.2, r=bearingOR);
         // extra stuff for bearing
         translate([0,0,-10]) cylinder(h=10+0.1, r=9);
+        // space for the cord
+        translate([0,-8,-50]) cylinder(h=30, r=3);
     }
 }
 
@@ -148,4 +167,4 @@ module gimbalAxis() {
 
 //handEyeCoordination();
 
-forearm();
+fingers();
