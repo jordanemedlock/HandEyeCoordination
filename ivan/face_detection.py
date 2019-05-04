@@ -19,12 +19,18 @@ else:
     cascPath = '/usr/local/share/opencv4/haarcascades/haarcascade_frontalface_default.xml'
     class FaceDetector():
         def __init__(self):
+            self.buffer = 5
             self.faceCascade = cv2.CascadeClassifier(cascPath)
             self.cap = cv2.VideoCapture(0)
-            self.cap.set(cv2.CAP_PROP_BUFFERSIZE, 1)
+            self.cap.set(cv2.CAP_PROP_BUFFERSIZE, self.buffer)
             self.last = 0.5, 0.5
 
+        def flush(self):
+            for _ in range(self.buffer):
+                self.cap.grab()
+
         def find_face(self):
+            self.flush()
             re, image = self.cap.read()
             if not re:
                 return (random(), random())
@@ -38,7 +44,7 @@ else:
 
             for (x, y, w, h) in faces:
                 height, width = gray.shape
-                cv2.rectangle(image,rec=(x,y,w,h),color=(255,0,0),thickness=2)
+                # cv2.rectangle(image,rec=(x,y,w,h),color=(255,0,0),thickness=2)
                 # cv2.imshow('face', image)
                 # cv2.waitKey(10)
                 x = x + int(w/2)
