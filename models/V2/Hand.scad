@@ -1,11 +1,11 @@
-screwR = 1.1;
+screwR = 1.3;
 screwHeadR = 2.5;
 w = 4;
 cameraR = 9;
 axleR = 3;
 eyeD = 60;
 $fn = 100;
-bearingIR = 7.6/2;
+bearingIR = 8/2;
 bearingOR = 22.4/2;
 bearingW = 7;
 servoGearR = 2.5;
@@ -15,7 +15,32 @@ servoY = 22.6;
 servoArmW = 32.3;
 servoArmH = 11;
 
+module shape(n, outterRadius) {
+    or = outterRadius;
+    d = 360 / n;
+    points = [ for (i = [1 : n]) [or * cos(i*d), or * sin(i*d)] ];
+    polygon(points);
+}
 
+module m3nut() {
+    linear_extrude(height=3)
+        shape(6, 4);
+}
+
+module embiggen() {
+    minkowski() {
+        children(0);
+        sphere(0.2);
+    }
+}
+
+module servoArm(){
+    linear_extrude(height=5){
+        circle(d=7);
+        translate([0,14]) circle(d=4);
+        polygon([[3,0], [2,14], [-2,14], [-3,0]]);
+    }
+}
     
 module arm() {
     translate([5,0,-170]) 
@@ -75,16 +100,44 @@ module servoNeg() {
     }
 }
 
-module wristAxel() {
+module wristAxel2() {
+    
+}
+
+module wristAxel1() {
     difference() {
         union() {
-            translate([0,0,6]) cube([10,10,8], center=true);
-            translate([0,0,-10]) cylinder(r=bearingIR, h=12);
-            translate([0,0,0]) cylinder(r=bearingIR+1, h=2);
+            translate([0,0,0]) cylinder(r=bearingIR+2, h=10);
+            translate([0,0,0]) cylinder(r=bearingIR, h=bearingW+10+2);
+            translate([0,0,bearingW+10+2+4]) cube([4,7,8], center=true);
         }
-        translate([0,0,-10]) cylinder(h=servoGearH, r=servoGearR);
-        translate([0,0,-10]) cylinder(h=20, r=screwR);
-        translate([0,0,0]) cylinder(h=10, r=screwHeadR);
+        
+        embiggen() servoArm();
+    }
+}
+
+module wristAxel2() {
+    difference() {
+        translate([0,0,5]) cube([9.4,9.4,10], center=true);
+        translate([0,0,5]) embiggen() cube([4, 7, 10], center=true);
+    }
+}
+
+module wristAxel() {
+    difference() {
+        translate([0,0,10]) {
+            union() {
+                translate([0,0,6]) cube([9.4,9.4,8], center=true);
+                translate([0,0,-10]) cylinder(r=bearingIR, h=12);
+                translate([0,0,0]) cylinder(r=bearingIR+1, h=2);
+            }
+            union() {
+                translate([0,0,-10]) cylinder(h=servoGearH, r=servoGearR);
+                translate([0,0,-10]) cylinder(h=20, r=screwR);
+                translate([0,0,-6]) cylinder(h=16, r=screwHeadR);
+            }
+        }
+        servoArm();
     }
 }
 
@@ -167,4 +220,6 @@ module gimbalAxis() {
 
 //handEyeCoordination();
 
-fingers();
+//fingers();
+//wristAxel2();
+wristAxel1();
