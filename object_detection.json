@@ -1,0 +1,17 @@
+{
+	"prototxt": "MobileNetSSD_deploy.prototxt",
+	"caffemodel": "MobileNetSSD_deploy.caffemodel",
+
+	"classes": [
+		"background", "aeroplane", "bicycle", "bird", "boat",
+		"bottle", "bus", "car", "cat", "chair", "cow", "diningtable",
+		"dog", "horse", "motorbike", "person", "pottedplant", "sheep",
+		"sofa", "train", "tvmonitor"
+	],
+	"consider": ["person", "dog", "cat"],
+	"confidence": 0.2,
+
+	"input_width": 300,
+	"input_height": 300,
+	"scale_factor": 127.5
+}
