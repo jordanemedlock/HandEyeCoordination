@@ -1,7 +1,7 @@
 try:
     from adafruit_servokit import ServoKit
     kit = ServoKit(channels=16)
-except ImportError:
+except ImportError, ValueError:
     from ivan.util.mock_servo import mock_kit
     kit = mock_kit
 from ivan.util.range import Range
