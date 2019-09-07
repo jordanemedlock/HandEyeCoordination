@@ -1,4 +1,4 @@
-
+import sys
 
 
 class Servo(object):
@@ -21,15 +21,20 @@ class Servo(object):
 			import gpiozero 
 			return GPIOServo(pin)
 		except:
+			e = sys.exc_info()[0]
+			print('failed to load gpiozero servo with error: {}'.format(e))
 			return cls.mockServo()
 
 	@classmethod
 	def servoKitServo(cls, kit, index, actuation_range=120):
 		try:
+			print('Loading servokit servo')
 			from adafruit_servokit import ServoKit
 			kit = ServoKit(channels=16)
 			return ServoKitServo(kit, index, actuation_range=actuation_range)
 		except:
+			e = sys.exc_info()[0]
+			print('failed to load servokit servo with error: {}'.format(e))
 			return cls.mockServo()
 
 
