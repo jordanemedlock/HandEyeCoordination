@@ -19,18 +19,15 @@ class Servo(object):
 	@classmethod
 	def gpioServo(cls, pin):
 		try:
-			import gpiozero 
 			return GPIOServo(pin)
 		except:
 			traceback.print_exc(file=sys.stdout)
 			return cls.mockServo()
 
 	@classmethod
-	def servoKitServo(cls, kit, index, actuation_range=120):
+	def servoKitServo(cls, index, actuation_range=120):
 		try:
-			from adafruit_servokit import ServoKit
-			kit = ServoKit(channels=16)
-			return ServoKitServo(kit, index, actuation_range=actuation_range)
+			return ServoKitServo(index, actuation_range=actuation_range)
 		except:
 			traceback.print_exc(file=sys.stdout)
 			return cls.mockServo()
@@ -45,6 +42,7 @@ class MockServo(Servo):
 class GPIOServo(Servo):
 	def __init__(self, pin):
 		super().__init__()
+		import gpiozero
 		self.pin = pin
 		self.servo = gpiozero.Servo(pin)
 
@@ -54,8 +52,10 @@ class GPIOServo(Servo):
 
 
 class ServoKitServo(Servo):
-	def __init__(self, kit, index, actuation_range=120):
+	def __init__(self, index, actuation_range=120):
 		super().__init__()
+		from adafruit_servokit import ServoKit
+		kit = ServoKit(channels=16)
 		self.servo = kit.servo[index]
 		self.servo.actuation_range = actuation_range
 
